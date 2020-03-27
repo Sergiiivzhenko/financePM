@@ -8,6 +8,6 @@ const Stack = createStackNavigator();
 export const StackNavigator = () => (
     <Stack.Navigator>
         <Stack.Screen name="Auth" component={AuthScreen}/>
-        <Stack.Screen name="Home" component={ProtectedTabNavigator}/>
+        <Stack.Screen name="Protected" component={ProtectedTabNavigator}/>
     </Stack.Navigator>
 );
