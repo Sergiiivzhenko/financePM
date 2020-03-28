@@ -5,6 +5,7 @@ import {HomeScreen} from "../../home/screens/HomeScreen";
 import {ReportsScreen} from "../../reports/screens/ReportsScreen";
 import {SettingsScreen} from "../../settings/screens/SettingsScreen";
 import {TransfersStackNavigator} from "./TransfersStackNavigator";
+import {Colors} from "../../../constants/Colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,8 +30,12 @@ const getIcon = name => {
 export const ProtectedTabNavigator = () => (
     <Tab.Navigator
         screenOptions={({ route }) => ({
-            tabBarIcon: () => <Ionicons name={getIcon(route.name)} size={24} />,
+            tabBarIcon: ({color}) => <Ionicons name={getIcon(route.name)} size={24} color={color} />,
         })}
+        tabBarOptions={{
+            activeTintColor: Colors.blue,
+            inactiveTintColor: Colors.gray,
+        }}
         >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Transfers" component={TransfersStackNavigator} />

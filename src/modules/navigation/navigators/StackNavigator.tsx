@@ -6,7 +6,7 @@ import {ProtectedTabNavigator} from "./ProtectedTabNavigator";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode="none">
         <Stack.Screen name="Auth" component={AuthScreen}/>
         <Stack.Screen name="Protected" component={ProtectedTabNavigator}/>
     </Stack.Navigator>
