@@ -1,24 +1,29 @@
 import React from "react";
-import {Button, Text, View} from "react-native";
+import {Button, Text} from "native-base";
+import {View, StyleSheet} from "react-native";
 
 export const TransfersScreen = ({navigation}) => (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>Transfers Screen</Text>
-        <Button
-            title="Go to Accounts"
-            onPress={() => navigation.navigate('Accounts')}
-        />
-        <Button
-            title="Go to Income"
-            onPress={() => navigation.navigate('Income')}
-        />
-        <Button
-            title="Go to Outcome"
-            onPress={() => navigation.navigate('Outcome')}
-        />
-        <Button
-            title="Go to DebtManagement"
-            onPress={() => navigation.navigate('DebtManagement')}
-        />
+    <View>
+        <Button style={styles.button} onPress={() => navigation.navigate('Accounts')}>
+            <Text>Accounts</Text>
+        </Button>
+        <Button style={styles.button} onPress={() => navigation.navigate('Income')}>
+            <Text>Income</Text>
+        </Button>
+        <Button style={styles.button} onPress={() => navigation.navigate('Outcome')}>
+            <Text>Outcome</Text>
+        </Button>
+        <Button style={styles.button} onPress={() => navigation.navigate('MoneyTransfers')}>
+            <Text>Money Transfers</Text>
+        </Button>
+        <Button style={styles.button} onPress={() => navigation.navigate('DebtManagement')}>
+            <Text>Debt Management</Text>
+        </Button>
     </View>
 );
+
+const styles = StyleSheet.create({
+    button: {
+        marginTop: 10,
+    }
+});
