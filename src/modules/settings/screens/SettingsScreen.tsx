@@ -1,12 +1,17 @@
 import React from "react";
-import {Button, Text, View} from "react-native";
+import {StyleSheet, View} from "react-native";
+import {Button, Text} from "native-base";
 
 export const SettingsScreen = ({navigation}) => (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>SettingsScreen</Text>
-        <Button
-            title="Go to Details"
-            onPress={() => navigation.navigate('Auth')}
-        />
+    <View>
+        <Button style={styles.button} onPress={() => navigation.navigate('Categories')}>
+            <Text>Categories</Text>
+        </Button>
     </View>
 );
+
+const styles = StyleSheet.create({
+    button: {
+        marginTop: 10,
+    }
+});
