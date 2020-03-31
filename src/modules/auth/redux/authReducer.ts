@@ -11,7 +11,6 @@ export const authReducer = (state = initialState, action) => {
             }
         }
         case 'LOGOUT': {
-            console.log('logout ', action);
             action.navigation.navigate('Auth');
             return {
                 ...state,
