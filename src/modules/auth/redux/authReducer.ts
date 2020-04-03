@@ -1,20 +1,45 @@
+import {isEmpty} from 'lodash';
+import {generateId} from "../../common/utils/uuid";
+
 const initialState = {
-    loggedIn: false,
+    currentUser: false,
+    users: [],
+    error: null,
 };
 
 export const authReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'LOGIN': {
+        case 'REGISTER': {
+            const user = {...action.userData, id: generateId()};
             return {
                 ...state,
-                loggedIn: true,
+                error: null,
+                users: [...state.users, user],
+                currentUser: user,
+            }
+        }
+        case 'LOGIN': {
+            const user = state.users.find(
+                user => user.email === action.userData.email &&
+                    user.password === action.userData.password
+            );
+            return {
+                ...state,
+                currentUser: user,
+                error: isEmpty(user) && 'Email or password are incorrect',
             }
         }
         case 'LOGOUT': {
             action.navigation.navigate('Auth');
             return {
                 ...state,
-                loggedIn: false,
+                currentUser: null,
+            }
+        }
+        case 'ERROR': {
+            return {
+                ...state,
+                error: action.error,
             }
         }
         default: {
