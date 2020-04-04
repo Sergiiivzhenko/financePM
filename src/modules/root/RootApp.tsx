@@ -9,6 +9,7 @@ import {AsyncStorage} from "react-native";
 export const RootApp = () => {
     // TODO: remove for prod clearing storage
     AsyncStorage.clear();
+    console.log('state -> ', store.getState());
     return (
         <Provider store={store}>
             <PersistGate

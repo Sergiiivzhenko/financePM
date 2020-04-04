@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import {View, StyleSheet} from "react-native";
+import {View, StyleSheet, Keyboard} from "react-native";
 import {Container, Button, Text, Item, Input, Label} from 'native-base';
 import {connect} from 'react-redux';
 import {Base64} from 'js-base64';
 import {isEmpty} from 'lodash';
-import {Colors} from "../../../constants/Colors";
+import {Colors} from "../../common/constants/Colors";
 import {login as loginAction, register as registerAction, setError} from "../redux/authActions";
 import {inputValidate} from "../utils/inputValidate";
 
@@ -22,6 +22,7 @@ const AuthScreenComponent = ({navigation, currentUser, login, register, error, s
     const switchSignInText = isSignIn ? signUpText : signInText;
     const action = isSignIn ? login : register;
     const onPress = () => {
+        Keyboard.dismiss();
         const emailValid = inputValidate('email', email, setError);
         const passwordValid = inputValidate('password', password, setError);
         console.log(emailValid, passwordValid);
