@@ -1,26 +1,28 @@
 import React, {useState} from "react";
-import {Text, View, StyleSheet, Picker} from "react-native";
+import {View, StyleSheet, Picker} from "react-native";
 import {connect} from 'react-redux';
 import {addAccount, removeAccount} from "../redux/transfersActions";
-import {Button, Container, Input, Item, Label} from "native-base";
+import {Button, Text, Container, Input, Item, Label} from "native-base";
 import {Colors} from "../../common/constants/Colors";
 
 export const AccountsScreenComponent = ({addAccount, currencies}) => {
     const [name, setName] = useState('');
+    const [currency, setCurrency] = useState(currencies[0]);
     return (
         <Container style={styles.container}>
             <View style={styles.margin}>
                 <Item style={styles.marginBottom} floatingLabel>
-                    <Label style={styles.padding}>Email</Label>
+                    <Label style={styles.padding}>Name</Label>
                     <Input style={styles.padding} value={name} onChangeText={setName}/>
                 </Item>
-                <Item style={styles.marginBottom} floatingLabel>
-                    <Picker>
+                <View style={[styles.marginBottom, styles.pickerContainer]}>
+                    <Label style={styles.padding}>Currency</Label>
+                    <Picker style={styles.picker} selectedValue={currency} onValueChange={setCurrency}>
                         {currencies.map(currency => (
-                            <Picker.Item label={currency.name} value={currency.name} />
+                            <Picker.Item key={currency.name} label={currency.name} value={currency.name} />
                         ))}
                     </Picker>
-                </Item>
+                </View>
             </View>
             <Button
                 style={[styles.button, styles.margin]}
@@ -63,6 +65,14 @@ const styles = StyleSheet.create({
         color: 'red',
         textAlign: 'center',
         marginVertical: 10,
+    },
+    pickerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    picker: {
+        flex: 0.5,
     }
 });
 

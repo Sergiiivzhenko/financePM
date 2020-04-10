@@ -25,7 +25,6 @@ const AuthScreenComponent = ({navigation, currentUser, login, register, error, s
         Keyboard.dismiss();
         const emailValid = inputValidate('email', email, setError);
         const passwordValid = inputValidate('password', password, setError);
-        console.log(emailValid, passwordValid);
         if (emailValid && passwordValid) {
             action({email, password: Base64.decode(password)});
         }

@@ -1,9 +1,20 @@
 import {isEmpty} from 'lodash';
 import {generateId} from "../../common/utils/uuid";
 
+// TODO: remove default logged user for prod
 const initialState = {
-    currentUser: false,
-    users: [],
+    currentUser: {
+        id: '1',
+        email: 'admin@gmail.com',
+        password: '×]'
+    },
+    users: [
+        {
+            id: '1',
+            email: 'admin@gmail.com',
+            password: '×]'
+        }
+    ],
     error: null,
 };
 
