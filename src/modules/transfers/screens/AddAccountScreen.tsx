@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
 import {View, StyleSheet, Picker} from "react-native";
 import {connect} from 'react-redux';
 import {addAccount} from "../redux/transfersActions";
@@ -7,11 +7,14 @@ import {Colors} from "../../common/constants/Colors";
 import {accountIcons} from "../utils/accountIcons";
 import {IconsModal} from "../components/IconsModal";
 
-export const AccountsScreenComponent = ({addAccount, currencies}) => {
+export const AddAccountScreenComponent = ({addAccount, currencies, navigation}) => {
     const [name, setName] = useState('');
     const [currency, setCurrency] = useState(currencies[0]);
     const [icon, setIcon] = useState(accountIcons[0]);
-    const onAddAccountHandler = useCallback(() => addAccount({name, currency, icon}), [])
+    const onAddAccountHandler = () => {
+        addAccount({name, currency, icon});
+        navigation.navigate('Accounts');
+    };
     return (
         <Container style={styles.container}>
             <View style={styles.margin}>
@@ -23,7 +26,7 @@ export const AccountsScreenComponent = ({addAccount, currencies}) => {
                     <Label style={styles.padding}>Currency</Label>
                     <Picker style={styles.picker} selectedValue={currency} onValueChange={setCurrency}>
                         {currencies.map(currency => (
-                            <Picker.Item key={currency.name} label={currency.name} value={currency.name} />
+                            <Picker.Item key={currency.name} label={currency.name} value={currency} />
                         ))}
                     </Picker>
                 </View>
@@ -84,4 +87,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export const AddAccountScreen = connect(mapStateToProps, mapDispatchToProps)(AccountsScreenComponent);
+export const AddAccountScreen = connect(mapStateToProps, mapDispatchToProps)(AddAccountScreenComponent);

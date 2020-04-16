@@ -8,7 +8,7 @@ const initialState = {
 export const transfersReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_ACCOUNT': {
-            const account = {...action.account, id: generateId()};
+            const account = {...action.account, id: generateId(), balance: 0};
             return {
                 ...state,
                 accounts: [...state.accounts, account],
