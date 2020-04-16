@@ -1,59 +1,17 @@
 import React, {useCallback, useState} from "react";
-import {View, StyleSheet, Picker, TouchableHighlight, Modal, Image} from "react-native";
+import {View, StyleSheet, Picker} from "react-native";
 import {connect} from 'react-redux';
-import {addAccount, removeAccount} from "../redux/transfersActions";
+import {addAccount} from "../redux/transfersActions";
 import {Button, Text, Container, Input, Item, Label} from "native-base";
 import {Colors} from "../../common/constants/Colors";
 import {accountIcons} from "../utils/accountIcons";
+import {IconsModal} from "../components/IconsModal";
 
 export const AccountsScreenComponent = ({addAccount, currencies}) => {
     const [name, setName] = useState('');
     const [currency, setCurrency] = useState(currencies[0]);
     const [icon, setIcon] = useState(accountIcons[0]);
-    const [modalVisible, setModalVisible] = useState(false);
-
-    const openModalHandler = useCallback(() => setModalVisible(true), []);
-    const onCloseModalHandler = useCallback(() => setModalVisible(!modalVisible), [modalVisible]);
-    const renderAccountActions = accountIcons.map((accountIcon, index) => {
-        const onSelectIconHandler = useCallback(() => {
-            setIcon(accountIcon);
-            setModalVisible(!modalVisible);
-        }, [accountIcon, modalVisible]);
-        return (
-            <TouchableHighlight key={`${index}`} onPress={onSelectIconHandler}>
-                <Image source={accountIcon} style={styles.modalIcon} resizeMode='contain' />
-            </TouchableHighlight>
-        )
-    });
-    const IconModal = () => (
-        <View style={styles.formItem}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalView}>
-                        <View style={styles.iconsContainer}>
-                            {renderAccountActions}
-                        </View>
-                        <Button
-                            style={[styles.button, styles.margin, styles.fullWidth]}
-                            onPress={onCloseModalHandler}
-                        >
-                            <Text>Close</Text>
-                        </Button>
-                    </View>
-                </View>
-            </Modal>
-            <TouchableHighlight
-                onPress={openModalHandler}
-            >
-                <Image source={icon} style={styles.icon} resizeMode='contain'/>
-            </TouchableHighlight>
-        </View>
-    );
-
+    const onAddAccountHandler = useCallback(() => addAccount({name, currency, icon}), [])
     return (
         <Container style={styles.container}>
             <View style={styles.margin}>
@@ -71,12 +29,12 @@ export const AccountsScreenComponent = ({addAccount, currencies}) => {
                 </View>
                 <View style={[styles.marginBottom, styles.pickerContainer]}>
                     <Label style={styles.padding}>Icon</Label>
-                    <IconModal />
+                    <IconsModal icon={icon} setIcon={setIcon} />
                 </View>
             </View>
             <Button
                 style={[styles.button, styles.margin]}
-                onPress={() => addAccount({})}
+                onPress={onAddAccountHandler}
             >
                 <Text>Add Account</Text>
             </Button>
@@ -94,9 +52,6 @@ const styles = StyleSheet.create({
         paddingVertical: 30,
         backgroundColor: Colors.blue,
     },
-    fullWidth: {
-        width: '100%',
-    },
     marginBottom: {
         marginBottom: 10,
     },
@@ -106,19 +61,6 @@ const styles = StyleSheet.create({
     padding: {
         paddingHorizontal: 20,
     },
-    authSelection: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 10,
-    },
-    authSelectionText: {
-        color: 'blue',
-    },
-    error: {
-        color: 'red',
-        textAlign: 'center',
-        marginVertical: 10,
-    },
     pickerContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -127,51 +69,6 @@ const styles = StyleSheet.create({
     picker: {
         flex: 0.5,
     },
-    formItem: {
-        alignItems: "flex-end",
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    modalView: {
-        margin: 10,
-        backgroundColor: "white",
-        borderRadius: 8,
-        padding: 10,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-    },
-    icon: {
-        height: 30,
-        width: 60,
-    },
-    modalIcon: {
-        height: 100,
-        width: 150,
-        margin: 10,
-    },
-    iconsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-    }
 });
 
 const mapStateToProps = (state) => {
@@ -184,7 +81,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addAccount: (account) => dispatch(addAccount(account)),
-        removeAccount: (accountId) => dispatch(removeAccount(accountId)),
     };
 };
 

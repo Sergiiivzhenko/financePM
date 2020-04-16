@@ -1,3 +1,5 @@
+import {generateId} from "../../common/utils/uuid";
+
 const initialState = {
     accounts: [],
     transactions: [],
@@ -6,9 +8,10 @@ const initialState = {
 export const transfersReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_ACCOUNT': {
+            const account = {...action.account, id: generateId()};
             return {
                 ...state,
-                accounts: [...state.accounts, action.account],
+                accounts: [...state.accounts, account],
             }
         }
         case 'REMOVE_ACCOUNT': {
