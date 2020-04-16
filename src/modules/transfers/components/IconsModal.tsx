@@ -6,10 +6,8 @@ import {Colors} from "../../common/constants/Colors";
 
 export const IconsModal = ({icon, setIcon}) => {
     const [modalVisible, setModalVisible] = useState(false);
-
     const openModalHandler = useCallback(() => setModalVisible(true), []);
     const onCloseModalHandler = useCallback(() => setModalVisible(!modalVisible), [modalVisible]);
-
     const renderAccountActions = accountIcons.map((accountIcon, index) => {
         const onSelectIconHandler = useCallback(() => {
             setIcon(accountIcon);
@@ -21,6 +19,7 @@ export const IconsModal = ({icon, setIcon}) => {
             </TouchableHighlight>
         )
     });
+
     return (
         <View style={styles.formItem}>
             <Modal
