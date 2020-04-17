@@ -4,7 +4,18 @@ import {Picker, StyleSheet, View} from "react-native";
 import {IconsModal} from "./IconsModal";
 import {Colors} from "../../common/constants/Colors";
 
-export const AccountForm = ({name, setName, currency, setCurrency, icon, setIcon, currencies, actionText, actionHandler}) => {
+export const AccountForm = ({
+                                name,
+                                setName,
+                                currency,
+                                setCurrency,
+                                icon,
+                                setIcon,
+                                currencies,
+                                actionText,
+                                actionHandler
+                            }) => {
+    const onValueChangeHandler = (item) => setCurrency(item);
     return (
         <Container style={styles.container}>
             <View style={styles.margin}>
@@ -14,15 +25,15 @@ export const AccountForm = ({name, setName, currency, setCurrency, icon, setIcon
                 </Item>
                 <View style={[styles.marginBottom, styles.pickerContainer]}>
                     <Label style={styles.padding}>Currency</Label>
-                    <Picker style={styles.picker} selectedValue={currency} onValueChange={setCurrency}>
+                    <Picker style={styles.picker} selectedValue={currency} onValueChange={onValueChangeHandler}>
                         {currencies.map(currency => (
-                            <Picker.Item key={currency.name} label={currency.name} value={currency} />
+                            <Picker.Item key={currency.name} label={currency.name} value={currency}/>
                         ))}
                     </Picker>
                 </View>
                 <View style={[styles.marginBottom, styles.pickerContainer]}>
                     <Label style={styles.padding}>Icon</Label>
-                    <IconsModal icon={icon} setIcon={setIcon} />
+                    <IconsModal icon={icon} setIcon={setIcon}/>
                 </View>
             </View>
             <Button
