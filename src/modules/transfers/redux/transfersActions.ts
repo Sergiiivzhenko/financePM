@@ -3,6 +3,11 @@ export const addAccount = (account) => ({
     account,
 });
 
+export const editAccount = (account) => ({
+    type: 'EDIT_ACCOUNT',
+    account,
+});
+
 export const removeAccount = (accountId) => ({
     type: 'REMOVE_ACCOUNT',
     accountId,

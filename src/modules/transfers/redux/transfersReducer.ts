@@ -14,6 +14,13 @@ export const transfersReducer = (state = initialState, action) => {
                 accounts: [...state.accounts, account],
             }
         }
+        case 'EDIT_ACCOUNT': {
+            const accountsWithoutUpdated = state.accounts.filter(account => account.id !== action.account.id);
+            return {
+                ...state,
+                accounts: [...accountsWithoutUpdated, action.account],
+            }
+        }
         case 'REMOVE_ACCOUNT': {
             return {
                 ...state,

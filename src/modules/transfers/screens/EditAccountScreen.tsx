@@ -1,18 +1,21 @@
 import React, {useState} from "react";
 import {View, StyleSheet, Picker} from "react-native";
 import {connect} from 'react-redux';
-import {addAccount} from "../redux/transfersActions";
+import {useRoute} from '@react-navigation/native';
+import {editAccount} from "../redux/transfersActions";
 import {Button, Text, Container, Input, Item, Label} from "native-base";
 import {Colors} from "../../common/constants/Colors";
-import {accountIcons} from "../utils/accountIcons";
 import {IconsModal} from "../components/IconsModal";
 
-export const AddAccountScreenComponent = ({addAccount, currencies, navigation}) => {
-    const [name, setName] = useState('');
-    const [currency, setCurrency] = useState(currencies[0]);
-    const [icon, setIcon] = useState(accountIcons[0]);
-    const onAddAccountHandler = () => {
-        addAccount({name, currency, icon});
+export const EditAccountScreenComponent = ({editAccount, accounts, currencies, navigation}) => {
+    const route = useRoute();
+    // @ts-ignore
+    const accountInStore = accounts.find(account => account.id === route.params.accountId);
+    const [name, setName] = useState(accountInStore.name);
+    const [currency, setCurrency] = useState(accountInStore.currency);
+    const [icon, setIcon] = useState(accountInStore.icon);
+    const onEditAccountHandler = () => {
+        editAccount({...accountInStore, name, currency, icon});
         navigation.navigate('Accounts');
     };
     return (
@@ -37,9 +40,9 @@ export const AddAccountScreenComponent = ({addAccount, currencies, navigation}) 
             </View>
             <Button
                 style={[styles.button, styles.margin]}
-                onPress={onAddAccountHandler}
+                onPress={onEditAccountHandler}
             >
-                <Text>Add Account</Text>
+                <Text>Edit Account</Text>
             </Button>
         </Container>
     );
@@ -76,14 +79,15 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
     return {
+        accounts: state.transfersReducer.accounts,
         currencies: state.settingsReducer.currencies,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addAccount: (account) => dispatch(addAccount(account)),
+        editAccount: (account) => dispatch(editAccount(account)),
     };
 };
 
-export const AddAccountScreen = connect(mapStateToProps, mapDispatchToProps)(AddAccountScreenComponent);
+export const EditAccountScreen = connect(mapStateToProps, mapDispatchToProps)(EditAccountScreenComponent);

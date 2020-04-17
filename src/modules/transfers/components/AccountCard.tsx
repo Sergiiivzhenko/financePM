@@ -2,20 +2,23 @@ import React from "react";
 import {Text} from "native-base";
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Entypo} from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
 export const AccountCard = ({item, removeAccount}) => {
     const {id, name, icon, currency, balance} = item;
-    const onPressHandler = () => removeAccount(id);
+    const navigation = useNavigation();
+    const onAccountPressHandler = () => navigation.navigate('EditAccount', {accountId: id});
+    const onRemoveHandler = () => removeAccount(id);
     return (
         <View style={styles.container}>
-            <View style={[styles.row, styles.info]}>
+            <TouchableOpacity style={[styles.row, styles.info]} onPress={onAccountPressHandler}>
                 <View style={styles.row}>
                     <Image source={icon} style={styles.icon} resizeMode='contain'/>
                     <Text>{name}</Text>
                 </View>
                 <Text>{`${balance} ${currency.symbol}`}</Text>
-            </View>
-            <TouchableOpacity style={styles.close} onPress={onPressHandler}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.close} onPress={onRemoveHandler}>
                 <Entypo name='cross' size={24} color={'red'} />
             </TouchableOpacity>
         </View>
