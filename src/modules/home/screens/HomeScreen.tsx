@@ -6,9 +6,10 @@ import Constants from 'expo-constants';
 import {HomeAccountCard} from "../components/HomeAccountCard";
 
 const HomeScreenComponent = ({accounts, navigation}) => {
+    const onAddAccountHandler = () => navigation.navigate('Transfers', {screen: 'AddAccount'});
     return (
         <ScrollView style={styles.container}>
-            <Button style={styles.addAccountButton} onPress={() => navigation.navigate('AddAccount')}>
+            <Button style={styles.addAccountButton} onPress={onAddAccountHandler}>
                 <Text>Add Account</Text>
             </Button>
             <View style={styles.list}>

@@ -1,11 +1,14 @@
 import React from "react";
-import {Button, Text} from "native-base";
-import {Image, StyleSheet, View} from "react-native";
+import {Text} from "native-base";
+import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
+import {Entypo} from "@expo/vector-icons";
+import {useNavigation} from '@react-navigation/native';
 
 export const HomeAccountCard = ({item}) => {
-    console.log(item);
-    const {name, icon, currency, balance} = item;
-    let navigation;
+    const navigation = useNavigation();
+    const {id, name, icon, currency, balance} = item;
+    const onPlusPressHandler = () => navigation.navigate('Transfers', {screen: 'AddIncome', params: {accountId: id}});
+    const onMinusPressHandler = () => navigation.navigate('Transfers', {screen: 'AddOutcome', params: {accountId: id}});
     return (
         <View style={styles.container}>
             <View style={[styles.row, styles.info]}>
@@ -15,12 +18,12 @@ export const HomeAccountCard = ({item}) => {
                 </View>
                 <View style={styles.buttonsContainer}>
                     <Text>{`${balance} ${currency.symbol}`}</Text>
-                    <Button style={styles.button} onPress={() => navigation.navigate('AddIncome')}>
-                        <Text>+</Text>
-                    </Button>
-                    <Button style={styles.button} onPress={() => navigation.navigate('AddOutcome')}>
-                        <Text>-</Text>
-                    </Button>
+                    <TouchableOpacity style={styles.action} onPress={onPlusPressHandler}>
+                        <Entypo name='squared-plus' size={30} color={'blue'} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.action} onPress={onMinusPressHandler}>
+                        <Entypo name='squared-minus' size={30} color={'blue'} />
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -45,8 +48,8 @@ const styles = StyleSheet.create({
         height: 30,
         width: 60,
     },
-    close: {
-        width: 50,
+    action: {
+        width: 40,
         alignItems: 'center',
         alignSelf: 'center'
     },
