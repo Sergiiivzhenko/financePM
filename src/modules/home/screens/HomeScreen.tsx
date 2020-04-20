@@ -1,43 +1,41 @@
 import React from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, ScrollView, View} from "react-native";
 import {Button, Text} from "native-base";
 import {connect} from 'react-redux';
-import {
-    increaseCounter as increaseCounterAction,
-    decreaseCounter as decreaseCounterAction,
-} from "../redux/balanceActions";
+import Constants from 'expo-constants';
+import {HomeAccountCard} from "../components/HomeAccountCard";
 
-const HomeScreenComponent = ({counter, increaseCounter, decreaseCounter}) => (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Button style={styles.button} onPress={increaseCounter}>
-            <Text>+</Text>
-        </Button>
-        <Button style={styles.button} onPress={decreaseCounter}>
-            <Text>-</Text>
-        </Button>
-        <Text>{`Counter: ${counter}`}</Text>
-    </View>
-);
+const HomeScreenComponent = ({accounts, navigation}) => {
+    return (
+        <ScrollView style={styles.container}>
+            <Button style={styles.addAccountButton} onPress={() => navigation.navigate('AddAccount')}>
+                <Text>Add Account</Text>
+            </Button>
+            <View style={styles.list}>
+                {accounts.map(item => <HomeAccountCard key={item.id} item={item} />)}
+            </View>
+        </ScrollView>
+    );
+}
 
 const styles = StyleSheet.create({
-    button: {
-        width: 100,
-        marginTop: 10,
-        justifyContent: 'center'
-    }
+    container: {
+        marginTop: Constants.statusBarHeight + 10,
+    },
+    addAccountButton: {
+        margin: 5,
+    },
+    list: {
+        flex: 1,
+        flexWrap: 'wrap',
+    },
+
 });
 
 const mapStateToProps = (state) => {
     return {
-        counter: state.balanceReducer.counter,
+        accounts: state.transfersReducer.accounts,
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        increaseCounter: () => dispatch(increaseCounterAction()),
-        decreaseCounter: () => dispatch(decreaseCounterAction()),
-    };
-};
-
-export const HomeScreen = connect(mapStateToProps, mapDispatchToProps)(HomeScreenComponent);
+export const HomeScreen = connect(mapStateToProps, null)(HomeScreenComponent);

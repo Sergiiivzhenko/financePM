@@ -2,7 +2,7 @@ import React from "react";
 import {Text} from "native-base";
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Entypo} from "@expo/vector-icons";
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 export const AccountCard = ({item, removeAccount}) => {
     const {id, name, icon, currency, balance} = item;
@@ -19,7 +19,7 @@ export const AccountCard = ({item, removeAccount}) => {
                 <Text>{`${balance} ${currency.symbol}`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.close} onPress={onRemoveHandler}>
-                <Entypo name='cross' size={24} color={'red'} />
+                <Entypo name='squared-cross' size={24} color={'red'} />
             </TouchableOpacity>
         </View>
     );
