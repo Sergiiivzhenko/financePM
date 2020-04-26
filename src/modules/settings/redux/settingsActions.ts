@@ -3,7 +3,27 @@ export const addCurrency = (currency) => ({
     currency,
 });
 
-export const removeCurrency = (currencyName) => ({
+export const editCurrency = (currency) => ({
+    type: 'EDIT_CURRENCY',
+    currency,
+});
+
+export const removeCurrency = (currencyId) => ({
     type: 'REMOVE_CURRENCY',
-    currencyName,
+    currencyId,
+});
+
+export const addCategory = (category) => ({
+    type: 'ADD_CATEGORY',
+    category,
+});
+
+export const editCategory = (category) => ({
+    type: 'EDIT_CATEGORY',
+    category,
+});
+
+export const removeCategory = (categoryId) => ({
+    type: 'REMOVE_CATEGORY',
+    categoryId,
 });
