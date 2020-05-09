@@ -1,4 +1,5 @@
 import {CATEGORY} from "../utils/category.enum";
+import {generateId} from "../../common/utils/uuid";
 
 const defaultCurrencies = [
     {
@@ -78,7 +79,7 @@ export const settingsReducer = (state = initialState, action) => {
         case 'ADD_CATEGORY': {
             return {
                 ...state,
-                categories: [...state.currencies, action.category],
+                categories: [...state.categories, {...action.category, id: generateId()}],
             };
         }
         case 'EDIT_CATEGORY': {
@@ -92,7 +93,7 @@ export const settingsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 categories:
-                    state.categories.filter(category => category.id === action.categoryId),
+                    state.categories.filter(category => category.id !== action.categoryId),
             };
         }
         default: {
