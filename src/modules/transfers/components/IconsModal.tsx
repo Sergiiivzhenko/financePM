@@ -23,7 +23,7 @@ export const IconsModal = ({icon, setIcon}) => {
     return (
         <View style={styles.formItem}>
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
             >

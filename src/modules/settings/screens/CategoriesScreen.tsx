@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import {FlatList, StyleSheet, View} from "react-native";
 import {connect} from 'react-redux';
-import {Button, Text} from "native-base";
+import {Accordion, Button, Text} from "native-base";
+import {groupBy} from 'lodash';
 import {removeCategory} from "../redux/settingsActions";
 import {CategoryCard} from "../components/CategoryCard";
 import {UpdateCategoryModal} from "../components/UpdateCategoryModal";
+import {CATEGORY} from "../utils/category.enum";
 
 export const CategoriesScreenComponent = ({categories, removeCategory}) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -14,6 +16,14 @@ export const CategoriesScreenComponent = ({categories, removeCategory}) => {
         setItem(null);
         setModalVisible(false);
     }
+    const group = groupBy(categories, 'type');
+    const accordionContent = [{
+        title: CATEGORY.INCOME,
+        content: group[CATEGORY.INCOME],
+    }, {
+        title: CATEGORY.OUTCOME,
+        content: group[CATEGORY.OUTCOME],
+    }];
     return (
         <View style={styles.container}>
             <UpdateCategoryModal
@@ -25,14 +35,19 @@ export const CategoriesScreenComponent = ({categories, removeCategory}) => {
             <Button style={styles.button} onPress={openModalHandler}>
                 <Text>Add Category</Text>
             </Button>
-            <FlatList
-                data={categories}
-                renderItem={({item}) => (
-                    <CategoryCard
-                        item={item}
-                        openModalHandler={openModalHandler}
-                        removeCategory={removeCategory}
-                        setItem={setItem}
+            <Accordion
+                dataArray={accordionContent}
+                renderContent={({content}) => (
+                    <FlatList
+                        data={content}
+                        renderItem={({item}) => (
+                            <CategoryCard
+                                item={item}
+                                openModalHandler={openModalHandler}
+                                removeCategory={removeCategory}
+                                setItem={setItem}
+                            />
+                        )}
                     />
                 )}
             />
