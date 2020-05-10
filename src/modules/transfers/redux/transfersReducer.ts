@@ -31,14 +31,21 @@ export const transfersReducer = (state = initialState, action) => {
         case 'ADD_TRANSACTION': {
             return {
                 ...state,
-                transactions: [...state.transactions, action.transaction],
+                transactions: [...state.transactions, {...action.transaction, id: generateId()}],
+            }
+        }
+        case 'EDIT_TRANSACTION': {
+            const transactionsWithoutUpdated = state.transactions.filter(transaction => transaction.id !== action.transaction.id);
+            return {
+                ...state,
+                transactions: [...transactionsWithoutUpdated, action.transaction],
             }
         }
         case 'REMOVE_TRANSACTION': {
             return {
                 ...state,
                 transactions:
-                    state.transactions.filter(transaction => transaction.id === action.transactionId),
+                    state.transactions.filter(transaction => transaction.id !== action.transactionId),
             }
         }
         default: {

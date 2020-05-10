@@ -18,6 +18,11 @@ export const addTransaction = (transaction) => ({
     transaction,
 });
 
+export const editTransaction = (transaction) => ({
+    type: 'EDIT_TRANSACTION',
+    transaction,
+});
+
 export const removeTransaction = (transactionId) => ({
     type: 'REMOVE_TRANSACTION',
     transactionId,
