@@ -1,8 +1,88 @@
 import {generateId} from "../../common/utils/uuid";
 
+// TODO: dev feature, remove or update for prod
+const defaultAccounts = [
+    {
+        balance: 0,
+        currency: {
+            coefficient: 25,
+            id: "1",
+            name: "USD",
+            symbol: "$",
+        },
+        icon: 18,
+        id: "1590147879590",
+        name: "dollars",
+    },
+    {
+        balance: 0,
+        currency: {
+            id: '2',
+            name: 'EUR',
+            coefficient: 30,
+            symbol: '€'
+        },
+        icon: 20,
+        id: "1590147886071",
+        name: "euros",
+    },
+];
+
+// TODO: dev feature, remove or update for prod
+const defaultTransactions = [
+    {
+        id: '1590147886074',
+        accountId: '1590147886071',
+        categoryId: '7',
+        amount: 100,
+        debt: false,
+        description: 'food'
+    },
+    {
+        id: '1590147886075',
+        accountId: '1590147886071',
+        categoryId: '8',
+        amount: 3000,
+        debt: false,
+        description: 'light, gas, other'
+    },
+    {
+        id: '1590147886076',
+        accountId: '1590147886071',
+        categoryId: '3',
+        amount: 5000,
+        debt: false,
+        description: 'house'
+    },
+    {
+        id: '1590147886077',
+        accountId: '1590147886071',
+        categoryId: '2',
+        amount: 1000,
+        debt: false,
+        description: 'credit'
+    },
+    {
+        id: '1590147886076',
+        accountId: '1590147879590',
+        categoryId: '3',
+        amount: 5005,
+        debt: false,
+        description: 'house'
+    },
+    {
+        id: '1590147886077',
+        accountId: '1590147879590',
+        categoryId: '2',
+        amount: 1001,
+        debt: false,
+        description: 'credit'
+    },
+];
+
 const initialState = {
-    accounts: [],
-    transactions: [],
+    accounts: defaultAccounts,
+    transactions: defaultTransactions,
 };
 
 export const transfersReducer = (state = initialState, action) => {
