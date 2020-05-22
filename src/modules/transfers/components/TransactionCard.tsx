@@ -7,12 +7,12 @@ import {useNavigation} from '@react-navigation/native';
 import {CATEGORY} from "../../settings/utils/category.enum";
 
 export const TransactionCardComponent = ({item, removeTransaction, categories, accounts}) => {
-    const {id, accountId, categoryId, amount, debt, description} = item;
+    const {id, type, accountId, categoryId, amount, debt, description} = item;
     const navigation = useNavigation();
     const onCardPressHandler = () => navigation.navigate('EditTransaction', {id});
     const onRemoveHandler = () => removeTransaction(id);
     const category = categories.find(category => category.id === categoryId);
-    const sign = category.type === CATEGORY.OUTCOME ? '-' : '';
+    const sign = type === CATEGORY.OUTCOME ? '-' : '';
     const categoryName = !debt ? category.name : 'debt';
     const account = accounts.find(account => account.id === accountId);
     const {icon, currency} = account;

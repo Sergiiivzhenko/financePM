@@ -1,4 +1,5 @@
 import {generateId} from "../../common/utils/uuid";
+import {CATEGORY} from "../../settings/utils/category.enum";
 
 // TODO: dev feature, remove or update for prod
 const defaultAccounts = [
@@ -34,6 +35,7 @@ const defaultTransactions = [
         id: '1590147886074',
         accountId: '1590147886071',
         categoryId: '7',
+        type: CATEGORY.OUTCOME,
         amount: 100,
         debt: false,
         description: 'food'
@@ -42,6 +44,7 @@ const defaultTransactions = [
         id: '1590147886075',
         accountId: '1590147886071',
         categoryId: '8',
+        type: CATEGORY.OUTCOME,
         amount: 3000,
         debt: false,
         description: 'light, gas, other'
@@ -50,6 +53,7 @@ const defaultTransactions = [
         id: '1590147886076',
         accountId: '1590147886071',
         categoryId: '3',
+        type: CATEGORY.OUTCOME,
         amount: 5000,
         debt: false,
         description: 'house'
@@ -58,6 +62,7 @@ const defaultTransactions = [
         id: '1590147886077',
         accountId: '1590147886071',
         categoryId: '2',
+        type: CATEGORY.OUTCOME,
         amount: 1000,
         debt: false,
         description: 'credit'
@@ -66,6 +71,7 @@ const defaultTransactions = [
         id: '1590147886078',
         accountId: '1590147879590',
         categoryId: '3',
+        type: CATEGORY.OUTCOME,
         amount: 5005,
         debt: false,
         description: 'house'
@@ -74,9 +80,82 @@ const defaultTransactions = [
         id: '1590147886079',
         accountId: '1590147879590',
         categoryId: '2',
+        type: CATEGORY.OUTCOME,
         amount: 1001,
         debt: false,
         description: 'credit'
+    },
+    {
+        id: '1590147886087',
+        accountId: '1590147886071',
+        categoryId: '22',
+        type: CATEGORY.INCOME,
+        amount: 1000,
+        debt: false,
+        description: 'credit'
+    },
+    {
+        id: '1590147886088',
+        accountId: '1590147879590',
+        categoryId: '24',
+        type: CATEGORY.INCOME,
+        amount: 5005,
+        debt: false,
+        description: 'house'
+    },
+    {
+        id: '1590147886097',
+        accountId: '1590147886071',
+        categoryId: '22',
+        type: CATEGORY.OUTCOME,
+        amount: 1000,
+        debt: false,
+        description: 'credit'
+    },
+    {
+        id: '1590147886098',
+        accountId: '1590147879590',
+        categoryId: '24',
+        type: CATEGORY.OUTCOME,
+        amount: 5005,
+        debt: false,
+        description: 'house'
+    },
+    {
+        id: '1590147886100',
+        accountId: '1590147886071',
+        categoryId: null,
+        type: null,
+        amount: 1000,
+        debt: true,
+        description: 'credit'
+    },
+    {
+        id: '1590147886101',
+        accountId: '1590147879590',
+        categoryId: null,
+        type: null,
+        amount: -5005,
+        debt: true,
+        description: 'house'
+    },
+    {
+        id: '1590147886102',
+        accountId: '1590147886071',
+        categoryId: null,
+        type: null,
+        amount: -1000,
+        debt: true,
+        description: 'credit'
+    },
+    {
+        id: '1590147886103',
+        accountId: '1590147879590',
+        categoryId: null,
+        type: null,
+        amount: 5005,
+        debt: true,
+        description: 'house'
     },
 ];
 
