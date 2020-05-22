@@ -10,6 +10,7 @@ import {AccountsScreen} from "../../transfers/screens/AccountsScreen";
 import {EditAccountScreen} from "../../transfers/screens/EditAccountScreen";
 import {IncomeScreen} from "../../transfers/screens/IncomeScreen";
 import {OutcomeScreen} from "../../transfers/screens/OutcomeScreen";
+import {EditTransactionScreen} from "../../transfers/screens/EditTransaction";
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export const TransfersStackNavigator = () => (
         <Stack.Screen name="Income" component={IncomeScreen} options={{title: 'Income'}}/>
         <Stack.Screen name="Outcome" component={OutcomeScreen} options={{title: 'Outcome'}}/>
         <Stack.Screen name="MoneyTransfers" component={MoneyTransfersScreen} options={{title: 'Money Transfers'}}/>
-        <Stack.Screen name="DebtManagement" component={DebtManagementScreen} options={{title: 'DebtManagement'}}/>
+        <Stack.Screen name="DebtManagement" component={DebtManagementScreen} options={{title: 'Debt Management'}}/>
+        <Stack.Screen name="EditTransaction" component={EditTransactionScreen} options={{title: 'Edit Transaction'}}/>
     </Stack.Navigator>
 );
