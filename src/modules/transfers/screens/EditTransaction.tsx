@@ -14,10 +14,11 @@ export const EditTransactionScreenComponent = (
         categories,
     }
 ) => {
-    const {id} = route.params;
+    // TODO: test and fix bugs
+    const {id, type: initialTypeFromNavigation, debt: debtFromNavigation} = route.params;
     const initialTransaction = id ? transactions.find(transaction => transaction.id === id) : {};
     const {
-        type,
+        type: initialType,
         accountId,
         amount: initialAmount,
         categoryId,
@@ -29,11 +30,11 @@ export const EditTransactionScreenComponent = (
     const [account, setAccount] = useState(initialAccount);
     const [amount, setAmount] = useState(initialAmount || 0);
     const [category, setCategory] = useState(initialCategory);
-    const [debt, setDebt] = useState(initialDebt || false);
+    const [debt, setDebt] = useState(initialDebt || debtFromNavigation || false);
     const [description, setDescription] = useState(initialDescription || '');
     const actionHandler = () => {
         const transaction = {
-            type,
+            type: initialTypeFromNavigation || initialType,
             accountId,
             amount,
             categoryId: category.id,
