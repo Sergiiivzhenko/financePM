@@ -1,15 +1,8 @@
-import React from "react";
-import {Button, View} from "react-native";
+import React, {useState} from "react";
 import {connect} from 'react-redux';
 import {editTransaction, addTransaction} from "../redux/transfersActions";
+import {TransactionForm} from "../components/TransactionForm";
 
-// "accountId": "1590147879590",
-//   "amount": 5005,
-//   "categoryId": "24",
-//   "debt": false,
-//   "description": "house",
-//   "id": "1590147886088",
-//   "type": "income",
 export const EditTransactionScreenComponent = (
     {
         navigation,
@@ -22,15 +15,60 @@ export const EditTransactionScreenComponent = (
     }
 ) => {
     const {id} = route.params;
-    const transaction = transactions.find(transaction => transaction.id === id);
-    console.log('id -> ', transaction);
+    const initialTransaction = id ? transactions.find(transaction => transaction.id === id) : {};
+    const {
+        type,
+        accountId,
+        amount: initialAmount,
+        categoryId,
+        debt: initialDebt,
+        description: initialDescription
+    } = initialTransaction;
+    const initialAccount = accountId ? accounts.find(account => account.id === accountId) : accounts[0];
+    const initialCategory = categoryId ? categories.find(category => category.id === categoryId) : categories[0];
+    const [account, setAccount] = useState(initialAccount);
+    const [amount, setAmount] = useState(initialAmount || 0);
+    const [category, setCategory] = useState(initialCategory);
+    const [debt, setDebt] = useState(initialDebt || false);
+    const [description, setDescription] = useState(initialDescription || '');
+    const actionHandler = () => {
+        const transaction = {
+            type,
+            accountId,
+            amount,
+            categoryId: category.id,
+            debt,
+            description
+        };
+        if (id) {
+            console.log('before edit transaction');
+            editTransaction({
+                id,
+                ...transaction
+            });
+        } else {
+            addTransaction(transaction);
+        }
+        navigation.goBack();
+    }
+    const actionText = id ? 'Edit' : 'Add';
     return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Button
-                title="Go to Details"
-                onPress={() => navigation.navigate('Auth')}
-            />
-        </View>
+        <TransactionForm
+            account={account}
+            setAccount={setAccount}
+            accounts={accounts}
+            amount={amount}
+            setAmount={setAmount}
+            category={category}
+            setCategory={setCategory}
+            categories={categories}
+            debt={debt}
+            setDebt={setDebt}
+            description={description}
+            setDescription={setDescription}
+            actionText={actionText}
+            actionHandler={actionHandler}
+        />
     );
 }
 

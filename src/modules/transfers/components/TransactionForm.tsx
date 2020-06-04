@@ -28,7 +28,7 @@ export const TransactionForm = ({
     const onCategoryChangeHandler = (category) => setCategory(category);
     const onDebtChangeHandler = (debt) => setDebt(debt);
     return (
-        <Container style={styles.container}>
+        <Container>
             <View style={styles.margin}>
                 <View style={[styles.marginBottom, styles.pickerContainer]}>
                     <Label style={styles.padding}>Account</Label>
@@ -38,9 +38,9 @@ export const TransactionForm = ({
                         ))}
                     </Picker>
                 </View>
-                <Item style={styles.marginBottom} floatingLabel>
+                <Item style={styles.marginBottom}>
                     <Label style={styles.padding}>Amount</Label>
-                    <Input style={styles.padding} value={amount} onChangeText={setAmount}/>
+                    <Input style={styles.padding} value={`${amount}`} onChangeText={(value) => setAmount(+value || 0)}/>
                 </Item>
                 {!debt ? (
                     <View style={[styles.marginBottom, styles.pickerContainer]}>
@@ -61,7 +61,7 @@ export const TransactionForm = ({
                         </Picker>
                     </View>
                 )}
-                <Item style={styles.marginBottom} floatingLabel>
+                <Item style={styles.marginBottom}>
                     <Label style={styles.padding}>Description</Label>
                     <Input style={styles.padding} value={description} onChangeText={setDescription}/>
                 </Item>
@@ -77,9 +77,6 @@ export const TransactionForm = ({
 };
 
 const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-    },
     button: {
         justifyContent: 'center',
         marginLeft: 20,
