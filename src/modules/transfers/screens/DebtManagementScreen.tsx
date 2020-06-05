@@ -9,8 +9,8 @@ export const DebtManagementScreenComponent = ({navigation, transactions, removeT
     const incomeTransactions = transactions.filter(transaction => transaction.debt);
     return (
         <View style={styles.container}>
-            <Button style={styles.button} onPress={() => navigation.navigate('EditTransaction', {debt: true})}>
-                <Text>Add/Give Debt</Text>
+            <Button style={styles.button} onPress={() => navigation.navigate('AddTransaction', {debt: true})}>
+                <Text>Borrow/Lend</Text>
             </Button>
             <FlatList
                 data={incomeTransactions}

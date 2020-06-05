@@ -10,7 +10,7 @@ export const OutcomeScreenComponent = ({navigation, transactions, removeTransact
     const incomeTransactions = transactions.filter(transaction => transaction.type === CATEGORY.OUTCOME);
     return (
         <View style={styles.container}>
-            <Button style={styles.button} onPress={() => navigation.navigate('EditTransaction', {type: CATEGORY.OUTCOME})}>
+            <Button style={styles.button} onPress={() => navigation.navigate('AddTransaction', {type: CATEGORY.OUTCOME})}>
                 <Text>Add Outcome</Text>
             </Button>
             <FlatList

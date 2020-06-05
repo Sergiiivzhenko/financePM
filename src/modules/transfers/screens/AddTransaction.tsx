@@ -1,46 +1,35 @@
 import React, {useState} from "react";
 import {connect} from 'react-redux';
-import {editTransaction} from "../redux/transfersActions";
+import {addTransaction} from "../redux/transfersActions";
 import {DebtType, TransactionForm} from "../components/TransactionForm";
 
-const EditTransactionScreenComponent = (
+const AddTransactionScreenComponent = (
     {
         navigation,
         route,
-        transactions,
-        editTransaction,
+        addTransaction,
         accounts,
         categories,
     }
 ) => {
-    const {id} = route.params;
-    const initialTransaction = transactions.find(transaction => transaction.id === id);
-    const {
-        type,
-        accountId,
-        amount: initialAmount,
-        categoryId,
-        debt: initialDebt,
-        description: initialDescription
-    } = initialTransaction;
-    const initialAccount = accounts.find(account => account.id === accountId);
-    const initialCategory = categories.find(category => category.id === categoryId);
+    const {type, debt: debtFromNavigation, accountId} = route.params;
+    const initialAccount = accountId ? accounts.find(account => account.id === accountId) : accounts[0];
+    const initialCategory = categories[0];
     const [account, setAccount] = useState(initialAccount);
-    const [amount, setAmount] = useState(initialAmount);
+    const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState(initialCategory);
-    const [debt, setDebt] = useState(initialDebt);
-    const [description, setDescription] = useState(initialDescription);
+    const [debt, setDebt] = useState(debtFromNavigation || false);
+    const [description, setDescription] = useState('');
     const actionHandler = () => {
         const transaction = {
-            id,
             type: !debt && type,
-            accountId,
+            accountId: account.id,
             amount: debt && debt === DebtType.Lend ? -amount : amount,
             categoryId: category.id,
-            debt: !!debt,
+            debt: true,
             description
         };
-        editTransaction(transaction);
+        addTransaction(transaction);
         navigation.goBack();
     }
     return (
@@ -57,7 +46,7 @@ const EditTransactionScreenComponent = (
             setDebt={setDebt}
             description={description}
             setDescription={setDescription}
-            actionText={'Edit'}
+            actionText={'Add'}
             actionHandler={actionHandler}
         />
     );
@@ -65,7 +54,6 @@ const EditTransactionScreenComponent = (
 
 const mapStateToProps = (state) => {
     return {
-        transactions: state.transfersReducer.transactions,
         categories: state.settingsReducer.categories,
         accounts: state.transfersReducer.accounts,
     };
@@ -73,8 +61,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        editTransaction: (transaction) => dispatch(editTransaction(transaction)),
+        addTransaction: (transaction) => dispatch(addTransaction(transaction)),
     };
 };
 
-export const EditTransactionScreen = connect(mapStateToProps, mapDispatchToProps)(EditTransactionScreenComponent);
+export const AddTransactionScreen = connect(mapStateToProps, mapDispatchToProps)(AddTransactionScreenComponent);

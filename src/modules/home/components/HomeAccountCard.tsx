@@ -3,12 +3,13 @@ import {Text} from "native-base";
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Entypo} from "@expo/vector-icons";
 import {useNavigation} from '@react-navigation/native';
+import {CATEGORY} from "../../settings/utils/category.enum";
 
 export const HomeAccountCard = ({item}) => {
     const navigation = useNavigation();
     const {id, name, icon, currency, balance} = item;
-    const onPlusPressHandler = () => navigation.navigate('Transfers', {screen: 'AddIncome', params: {accountId: id}});
-    const onMinusPressHandler = () => navigation.navigate('Transfers', {screen: 'AddOutcome', params: {accountId: id}});
+    const onPlusPressHandler = () => navigation.navigate('Transfers', {screen: 'AddTransaction', params: {accountId: id, type: CATEGORY.INCOME}});
+    const onMinusPressHandler = () => navigation.navigate('Transfers', {screen: 'AddTransaction', params: {accountId: id, type: CATEGORY.OUTCOME}});
     return (
         <View style={styles.container}>
             <View style={[styles.row, styles.info]}>

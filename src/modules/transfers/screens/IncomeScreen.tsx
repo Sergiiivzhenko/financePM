@@ -10,7 +10,7 @@ export const IncomeScreenComponent = ({navigation, transactions, removeTransacti
     const incomeTransactions = transactions.filter(transaction => transaction.type === CATEGORY.INCOME);
     return (
         <View style={styles.container}>
-            <Button style={styles.button} onPress={() => navigation.navigate('EditTransaction', {type: CATEGORY.INCOME})}>
+            <Button style={styles.button} onPress={() => navigation.navigate('AddTransaction', {type: CATEGORY.INCOME})}>
                 <Text>Add Income</Text>
             </Button>
             <FlatList

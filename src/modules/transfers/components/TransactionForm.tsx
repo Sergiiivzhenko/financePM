@@ -3,9 +3,9 @@ import {Button, Container, Input, Item, Label, Text} from "native-base";
 import {Picker, StyleSheet, View} from "react-native";
 import {Colors} from "../../common/constants/Colors";
 
-enum DebtType {
-    GiveDebt = 'Give debt',
-    GetDebt = 'Get debt',
+export enum DebtType {
+    Borrow = 'Borrow',
+    Lend = 'Lend',
 }
 
 export const TransactionForm = ({
