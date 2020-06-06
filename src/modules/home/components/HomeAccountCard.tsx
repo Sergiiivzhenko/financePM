@@ -8,8 +8,28 @@ import {CATEGORY} from "../../settings/utils/category.enum";
 export const HomeAccountCard = ({item}) => {
     const navigation = useNavigation();
     const {id, name, icon, currency, balance} = item;
-    const onPlusPressHandler = () => navigation.navigate('Transfers', {screen: 'AddTransaction', params: {accountId: id, type: CATEGORY.INCOME}});
-    const onMinusPressHandler = () => navigation.navigate('Transfers', {screen: 'AddTransaction', params: {accountId: id, type: CATEGORY.OUTCOME}});
+    const onPlusPressHandler = () => navigation.navigate(
+        'Transfers',
+        {
+            screen: 'AddTransaction',
+            params: {
+                accountId: id,
+                type: CATEGORY.INCOME,
+                backRoute: 'Home',
+            }
+        }
+    );
+    const onMinusPressHandler = () => navigation.navigate(
+        'Transfers',
+        {
+            screen: 'AddTransaction',
+            params: {
+                accountId: id,
+                type: CATEGORY.OUTCOME,
+                backRoute: 'Home',
+            }
+        }
+    );
     return (
         <View style={styles.container}>
             <View style={[styles.row, styles.info]}>

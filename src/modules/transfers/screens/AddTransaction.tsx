@@ -12,7 +12,7 @@ const AddTransactionScreenComponent = (
         categories,
     }
 ) => {
-    const {type, debt: debtFromNavigation, accountId} = route.params;
+    const {type, debt: debtFromNavigation, accountId, backRoute} = route.params;
     const initialAccount = accountId ? accounts.find(account => account.id === accountId) : accounts[0];
     const initialCategory = categories[0];
     const [account, setAccount] = useState(initialAccount);
@@ -26,11 +26,13 @@ const AddTransactionScreenComponent = (
             accountId: account.id,
             amount: debt && debt === DebtType.Lend ? -amount : amount,
             categoryId: category.id,
-            debt: true,
+            debt: !!debt,
             description
         };
         addTransaction(transaction);
-        navigation.goBack();
+        backRoute
+            ? navigation.reset({index: 0, routes: [{name: backRoute}]})
+            : navigation.goBack();
     }
     return (
         <TransactionForm
