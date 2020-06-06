@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {Entypo} from "@expo/vector-icons";
 import {useNavigation} from '@react-navigation/native';
 import {CATEGORY} from "../../settings/utils/category.enum";
+import {DebtType} from "./TransactionForm";
 
 export const TransactionCardComponent = ({item, removeTransaction, categories, accounts}) => {
     const {id, type, accountId, categoryId, amount, debt, description} = item;
@@ -13,13 +14,16 @@ export const TransactionCardComponent = ({item, removeTransaction, categories, a
     const onRemoveHandler = () => removeTransaction(id);
     const category = categories.find(category => category.id === categoryId);
     const sign = type === CATEGORY.OUTCOME ? '-' : '';
-    const categoryName = !debt ? category.name : 'debt';
+    const debtType = debt && amount > 0 ? DebtType.Borrow : DebtType.Lend;
+    const categoryName = !debt ? category.name : debtType;
     const account = accounts.find(account => account.id === accountId);
     const {icon, currency} = account;
+    const typeText = type || 'debt';
     return (
         <View style={styles.container}>
             <TouchableOpacity style={[styles.row, styles.info]} onPress={onCardPressHandler}>
                 <Image source={icon} style={styles.icon} resizeMode='contain'/>
+                <Text>{typeText.substring(0, 9)}</Text>
                 <Text>{categoryName.substring(0, 9)}</Text>
                 <Text>{description.substring(0, 9)}</Text>
                 <Text>{`${sign}${amount}${currency.symbol}`}</Text>
