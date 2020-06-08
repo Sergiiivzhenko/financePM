@@ -23,10 +23,10 @@ export const TransactionCardComponent = ({item, removeTransaction, categories, a
         <View style={styles.container}>
             <TouchableOpacity style={[styles.row, styles.info]} onPress={onCardPressHandler}>
                 <Image source={icon} style={styles.icon} resizeMode='contain'/>
-                <Text>{typeText.substring(0, 9)}</Text>
-                <Text>{categoryName.substring(0, 9)}</Text>
-                <Text>{description.substring(0, 9)}</Text>
-                <Text>{`${sign}${amount}${currency.symbol}`}</Text>
+                <Text style={styles.text}>{typeText.substring(0, 9)}</Text>
+                <Text style={styles.text}>{categoryName.substring(0, 9)}</Text>
+                <Text style={styles.text}>{description.substring(0, 9)}</Text>
+                <Text style={styles.text}>{`${sign}${amount}${currency.symbol}`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.close} onPress={onRemoveHandler}>
                 <Entypo name='squared-cross' size={24} color={'red'} />
@@ -52,6 +52,10 @@ const styles = StyleSheet.create({
     icon: {
         height: 30,
         width: 60,
+    },
+    text: {
+        flex: 1,
+        textAlign: 'center',
     },
     close: {
         width: 50,
