@@ -185,6 +185,8 @@ export const transfersReducer = (state = initialState, action) => {
                 ...state,
                 accounts:
                     state.accounts.filter(account => account.id !== action.accountId),
+                transactions:
+                    state.transactions.filter(transaction => transaction.accountId !== action.accountId),
             }
         }
         case 'ADD_TRANSACTION': {
