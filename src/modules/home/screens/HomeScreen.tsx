@@ -4,16 +4,18 @@ import {Button, Text} from "native-base";
 import {connect} from 'react-redux';
 import Constants from 'expo-constants';
 import {HomeAccountCard} from "../components/HomeAccountCard";
+import {getAccountsWithActualBalance} from "../../common/utils/getAccountsWithActualBalance";
 
-const HomeScreenComponent = ({accounts, navigation}) => {
+const HomeScreenComponent = ({navigation, accounts, transactions}) => {
     const onAddAccountHandler = () => navigation.navigate('Transfers', {screen: 'AddAccount'});
+    const accountsWithActualBalance = getAccountsWithActualBalance(accounts, transactions);
     return (
         <ScrollView style={styles.container}>
             <Button style={styles.addAccountButton} onPress={onAddAccountHandler}>
                 <Text>Add Account</Text>
             </Button>
             <View style={styles.list}>
-                {accounts.map(item => <HomeAccountCard key={item.id} item={item} />)}
+                {accountsWithActualBalance.map(item => <HomeAccountCard key={item.id} item={item} />)}
             </View>
         </ScrollView>
     );
@@ -36,6 +38,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     return {
         accounts: state.transfersReducer.accounts,
+        transactions: state.transfersReducer.transactions,
     };
 };
 
