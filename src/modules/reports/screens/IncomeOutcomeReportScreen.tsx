@@ -43,21 +43,16 @@ const calculateDateOffset = (category: DateFilters, dates?: DateValues): DateFil
 
 const getPieChartData = (transactions, category, dates) => {
     const {start, end} = calculateDateOffset(category, dates);
-    // todo: make in 1 reduce iteration
-    const outcomeBalance = transactions.reduce((accumulator, current) => {
+    const {outcomeBalance, incomeBalance} = transactions.reduce((accumulator, current) => {
         const date = +current.id;
         if (current.type === CATEGORY.OUTCOME && date >= start && date <= end) {
-            accumulator = accumulator + current.amount;
+            accumulator.outcomeBalance = accumulator.outcomeBalance + current.amount;
         }
-        return accumulator;
-    }, 0);
-    const incomeBalance = transactions.reduce((accumulator, current) => {
-        const date = +current.id;
         if (current.type === CATEGORY.INCOME && date >= start && date <= end) {
-            accumulator = accumulator + current.amount;
+            accumulator.incomeBalance = accumulator.incomeBalance + current.amount;
         }
         return accumulator;
-    }, 0);
+    }, {outcomeBalance: 0, incomeBalance: 0});
     const outcomePercentage = outcomeBalance * 100 / (outcomeBalance + incomeBalance);
     const incomePercentage = incomeBalance * 100 / (outcomeBalance + incomeBalance);
     return [
@@ -100,12 +95,14 @@ const Labels = ({ slices }: { slices?: any}) => {
 export const IncomeOutcomeReportScreenComponent = ({transactions}) => {
     const [dateFilter, setDateFilter] = useState(dateFilters[0]);
     const [dates, setDates] = useState({start: defaultDate, end: defaultDate});
-    const onCategoryChangeHandler = (value) => setDateFilter(value);
+    const onCategoryChangeHandler = (value) => {
+        setDates({start: defaultDate, end: defaultDate});
+        setDateFilter(value);
+    };
     const onDateChange = (value, type) => {
         setDates({...dates, [type]: value});
-    }
+    };
     const data = getPieChartData(transactions, dateFilter, dates);
-    console.log(data);
     const showDatePicker = dateFilter === DateFilters.SelectDates;
     const showNoDataPlaceholder = data.some(item => !item.amount);
     return (
