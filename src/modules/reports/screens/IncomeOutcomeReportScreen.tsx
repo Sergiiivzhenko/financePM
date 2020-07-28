@@ -1,20 +1,59 @@
-import React from "react";
-import {View} from "react-native";
+import React, {useState} from "react";
+import {Picker, StyleSheet, View} from "react-native";
 import {PieChart} from 'react-native-svg-charts'
 import {Text} from "react-native-svg";
 import {connect} from 'react-redux';
+import {Container, DatePicker, Text as TextNative} from "native-base";
 import {Colors} from "../../common/constants/Colors";
 import {CATEGORY} from "../../settings/utils/category.enum";
+import {DateFilters} from "../enums/DateFilters";
 
-const getPieChartData = (transactions) => {
+const defaultDate = new Date();
+const dateFilters = Object.keys(DateFilters).map(key => DateFilters[key]);
+const yearInMilliseconds = 31536000000;
+
+type DateValues = {
+    start: Date;
+    end: Date;
+};
+
+type DateFilter = {
+    start: number;
+    end: number;
+};
+
+const calculateDateOffset = (category: DateFilters, dates?: DateValues): DateFilter => {
+    const defaultDate = new Date().getTime();
+    switch (category) {
+        case DateFilters.LastYear: {
+            const start = defaultDate - yearInMilliseconds;
+            return {start, end: defaultDate};
+        }
+        case DateFilters.LastMonth: {
+            const startDate = new Date();
+            const start = startDate.setMonth(startDate.getMonth()-1);
+            return {start: start, end: defaultDate};
+        }
+        case DateFilters.SelectDates: {
+            const {start, end} = dates;
+            return {start: start.getTime(), end: end.getTime()};
+        }
+    }
+}
+
+const getPieChartData = (transactions, category, dates) => {
+    const {start, end} = calculateDateOffset(category, dates);
+    // todo: make in 1 reduce iteration
     const outcomeBalance = transactions.reduce((accumulator, current) => {
-        if (current.type === CATEGORY.OUTCOME) {
+        const date = +current.id;
+        if (current.type === CATEGORY.OUTCOME && date >= start && date <= end) {
             accumulator = accumulator + current.amount;
         }
         return accumulator;
     }, 0);
     const incomeBalance = transactions.reduce((accumulator, current) => {
-        if (current.type === CATEGORY.INCOME) {
+        const date = +current.id;
+        if (current.type === CATEGORY.INCOME && date >= start && date <= end) {
             accumulator = accumulator + current.amount;
         }
         return accumulator;
@@ -37,7 +76,7 @@ const getPieChartData = (transactions) => {
     ];
 }
 
-const Labels = ({ slices, height, width }) => {
+const Labels = ({ slices }: { slices?: any}) => {
     return slices.map((slice, index) => {
         const {pieCentroid, data} = slice;
         return (
@@ -48,7 +87,7 @@ const Labels = ({ slices, height, width }) => {
                 fill={'white'}
                 textAnchor={'middle'}
                 alignmentBaseline={'middle'}
-                fontSize={24}
+                fontSize={18}
                 stroke={'black'}
                 strokeWidth={0.2}
             >
@@ -59,13 +98,72 @@ const Labels = ({ slices, height, width }) => {
 }
 
 export const IncomeOutcomeReportScreenComponent = ({transactions}) => {
-    const data = getPieChartData(transactions);
+    const [dateFilter, setDateFilter] = useState(dateFilters[0]);
+    const [dates, setDates] = useState({start: defaultDate, end: defaultDate});
+    const onCategoryChangeHandler = (value) => setDateFilter(value);
+    const onDateChange = (value, type) => {
+        setDates({...dates, [type]: value});
+    }
+    const data = getPieChartData(transactions, dateFilter, dates);
+    console.log(data);
+    const showDatePicker = dateFilter === DateFilters.SelectDates;
+    const showNoDataPlaceholder = data.some(item => !item.amount);
     return (
-        <View>
-            <PieChart style={{ height: 200 }} data={data}>
-                <Labels />
-            </PieChart>
-        </View>
+        <Container>
+            <View>
+                <Picker style={styles.picker} selectedValue={dateFilter} onValueChange={onCategoryChangeHandler}>
+                    {dateFilters.map(value => (
+                        <Picker.Item key={value} label={value} value={value}/>
+                    ))}
+                </Picker>
+                {showDatePicker && (
+                    <View style={styles.datesContainer}>
+                        <View>
+                            <TextNative>From</TextNative>
+                            <DatePicker
+                                defaultDate={defaultDate}
+                                maximumDate={dates.end}
+                                locale={"en"}
+                                timeZoneOffsetInMinutes={undefined}
+                                modalTransparent={false}
+                                animationType={"fade"}
+                                androidMode={"default"}
+                                placeHolderText="Select start date"
+                                textStyle={{padding: 0}}
+                                placeHolderTextStyle={{ color: "#d3d3d3", padding: 0 }}
+                                onDateChange={(value) => onDateChange(value, 'start')}
+                                disabled={false}
+                            />
+                        </View>
+                        <View>
+                            <TextNative>To</TextNative>
+                            <DatePicker
+                                defaultDate={defaultDate}
+                                minimumDate={dates.start}
+                                locale={"en"}
+                                timeZoneOffsetInMinutes={undefined}
+                                modalTransparent={false}
+                                animationType={"fade"}
+                                androidMode={"default"}
+                                placeHolderText="Select end date"
+                                textStyle={{padding: 0}}
+                                placeHolderTextStyle={{ color: "#d3d3d3", padding: 0 }}
+                                onDateChange={(value) => onDateChange(value, 'end')}
+                                disabled={false}
+                            />
+                        </View>
+                    </View>
+                )}
+                {showNoDataPlaceholder
+                    ? <TextNative style={styles.placeholder}>No data available for selected period</TextNative>
+                    : (
+                        <PieChart style={{height: 200, marginTop: 20}} data={data}>
+                            <Labels/>
+                        </PieChart>
+                    )
+                }
+            </View>
+        </Container>
     );
 }
 
@@ -74,5 +172,21 @@ const mapStateToProps = (state) => {
         transactions: state.transfersReducer.transactions,
     };
 };
+
+const styles = StyleSheet.create({
+    picker: {
+        paddingTop: 40,
+        flex: 1,
+    },
+    datesContainer: {
+        paddingHorizontal: 8,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    placeholder: {
+        paddingHorizontal: 8,
+    }
+});
 
 export const IncomeOutcomeReportScreen = connect(mapStateToProps, null)(IncomeOutcomeReportScreenComponent);
