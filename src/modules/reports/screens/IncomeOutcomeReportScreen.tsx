@@ -1,96 +1,15 @@
 import React, {useState} from "react";
 import {Picker, StyleSheet, View} from "react-native";
 import {PieChart} from 'react-native-svg-charts'
-import {Text} from "react-native-svg";
 import {connect} from 'react-redux';
 import {Container, DatePicker, Text as TextNative} from "native-base";
-import {Colors} from "../../common/constants/Colors";
-import {CATEGORY} from "../../settings/utils/category.enum";
+
 import {DateFilters} from "../enums/DateFilters";
+import {Labels} from "../components/Labels";
+import {getIncomeOutcomePieChartData} from "../utils/getIncomeOutcomePieChartData";
 
 const defaultDate = new Date();
 const dateFilters = Object.keys(DateFilters).map(key => DateFilters[key]);
-const yearInMilliseconds = 31536000000;
-
-type DateValues = {
-    start: Date;
-    end: Date;
-};
-
-type DateFilter = {
-    start: number;
-    end: number;
-};
-
-const calculateDateOffset = (category: DateFilters, dates?: DateValues): DateFilter => {
-    const defaultDate = new Date().getTime();
-    switch (category) {
-        case DateFilters.LastYear: {
-            const start = defaultDate - yearInMilliseconds;
-            return {start, end: defaultDate};
-        }
-        case DateFilters.LastMonth: {
-            const startDate = new Date();
-            const start = startDate.setMonth(startDate.getMonth()-1);
-            return {start: start, end: defaultDate};
-        }
-        case DateFilters.SelectDates: {
-            const {start, end} = dates;
-            return {start: start.getTime(), end: end.getTime()};
-        }
-    }
-}
-
-const getPieChartData = (transactions, category, dates) => {
-    const {start, end} = calculateDateOffset(category, dates);
-    const {outcomeBalance, incomeBalance} = transactions.reduce((accumulator, current) => {
-        const date = +current.id;
-        if (current.type === CATEGORY.OUTCOME && date >= start && date <= end) {
-            accumulator.outcomeBalance = accumulator.outcomeBalance + current.amount;
-        }
-        if (current.type === CATEGORY.INCOME && date >= start && date <= end) {
-            accumulator.incomeBalance = accumulator.incomeBalance + current.amount;
-        }
-        return accumulator;
-    }, {outcomeBalance: 0, incomeBalance: 0});
-    const outcomePercentage = outcomeBalance * 100 / (outcomeBalance + incomeBalance);
-    const incomePercentage = incomeBalance * 100 / (outcomeBalance + incomeBalance);
-    return [
-        {
-            amount: incomeBalance,
-            value: incomePercentage,
-            svg: {fill: Colors.green},
-            key: CATEGORY.INCOME,
-        },
-        {
-            amount: outcomeBalance,
-            value: outcomePercentage,
-            svg: {fill: Colors.red},
-            key: CATEGORY.OUTCOME,
-        },
-    ];
-}
-
-const Labels = ({ slices }: { slices?: any}) => {
-    return slices.map((slice, index) => {
-        const {pieCentroid, data} = slice;
-        return (
-            <Text
-                key={index}
-                x={pieCentroid[ 0 ]}
-                y={pieCentroid[ 1 ]}
-                fill={'white'}
-                textAnchor={'middle'}
-                alignmentBaseline={'middle'}
-                fontSize={18}
-                stroke={'black'}
-                strokeWidth={0.2}
-            >
-                {data.amount}
-            </Text>
-        )
-    })
-}
 
 export const IncomeOutcomeReportScreenComponent = ({transactions}) => {
     const [dateFilter, setDateFilter] = useState(dateFilters[0]);
@@ -102,7 +21,7 @@ export const IncomeOutcomeReportScreenComponent = ({transactions}) => {
     const onDateChange = (value, type) => {
         setDates({...dates, [type]: value});
     };
-    const data = getPieChartData(transactions, dateFilter, dates);
+    const data = getIncomeOutcomePieChartData(transactions, dateFilter, dates);
     const showDatePicker = dateFilter === DateFilters.SelectDates;
     const showNoDataPlaceholder = data.some(item => !item.amount);
     return (
