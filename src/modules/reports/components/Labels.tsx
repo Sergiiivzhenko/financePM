@@ -1,5 +1,5 @@
-import {Text} from "react-native-svg";
 import React from "react";
+import {Text} from "react-native-svg";
 
 export const Labels = ({ slices }: { slices?: any}) => {
     return slices.map((slice, index) => {
