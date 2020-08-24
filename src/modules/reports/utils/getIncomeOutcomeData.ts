@@ -2,8 +2,8 @@ import {CATEGORY} from "../../settings/utils/category.enum";
 import {Colors} from "../../common/constants/Colors";
 import {calculateDateOffset} from "./calculateDateOffset";
 
-export const getIncomeOutcomePieChartData = (transactions, category, dates) => {
-    const {start, end} = calculateDateOffset(category, dates);
+export const getIncomeOutcomeData = (transactions, dateFilter, dates) => {
+    const {start, end} = calculateDateOffset(dateFilter, dates);
     const {outcomeBalance, incomeBalance} = transactions.reduce((accumulator, current) => {
         const date = +current.id;
         if (current.type === CATEGORY.OUTCOME && date >= start && date <= end) {
