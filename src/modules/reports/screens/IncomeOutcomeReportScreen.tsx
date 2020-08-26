@@ -7,7 +7,7 @@ import {DateFilters} from "../enums/DateFilters";
 import {getIncomeOutcomeData} from "../utils/getIncomeOutcomeData";
 import {DateTypePicker} from "../components/DateTypePicker";
 import {DatesSelect} from "../components/DatesSelect";
-import {PieChartWithPlaceholder} from "../components/PieChartWithPlaceholder";
+import {PieChart} from "../components/PieChart";
 import {dateFilters, defaultDate, useDateFilters} from "../utils/dateFilters";
 
 export const IncomeOutcomeReportScreenComponent = ({transactions}) => {
@@ -29,7 +29,7 @@ export const IncomeOutcomeReportScreenComponent = ({transactions}) => {
                         onDateChange={onDateChange}
                     />
                 )}
-                <PieChartWithPlaceholder data={data} />
+                <PieChart data={data} />
             </View>
         </Container>
     );
