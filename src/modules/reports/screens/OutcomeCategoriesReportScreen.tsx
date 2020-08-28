@@ -1,8 +1,46 @@
 import React from "react";
-import {Text, View} from "react-native";
+import {View} from "react-native";
+import {connect} from 'react-redux';
+import {Container} from "native-base";
 
-export const OutcomeCategoriesReportScreen = () => (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>OutcomeCategoriesReport</Text>
-    </View>
-);
+import {DateFilters} from "../enums/DateFilters";
+import {DateTypePicker} from "../components/DateTypePicker";
+import {DatesSelect} from "../components/DatesSelect";
+import {dateFilters, defaultDate, useDateFilters} from "../utils/dateFilters";
+import {getCategoriesData} from "../utils/getCategoriesData";
+import {BarChart} from "../components/BarChart";
+import {CATEGORY} from "../../settings/utils/category.enum";
+
+export const OutcomeCategoriesReportScreenComponent = ({transactions, categories}) => {
+    const {dateFilter, dates, onCategoryChangeHandler, onDateChange} = useDateFilters();
+    const data = getCategoriesData({transactions, categories, dateFilter, dates, type: CATEGORY.OUTCOME});
+    const showDatePicker = dateFilter === DateFilters.SelectDates;
+    return (
+        <Container>
+            <View>
+                <DateTypePicker
+                    dateFilter={dateFilter}
+                    dateFilters={dateFilters}
+                    onCategoryChangeHandler={onCategoryChangeHandler}
+                />
+                {showDatePicker && (
+                    <DatesSelect
+                        dates={dates}
+                        defaultDate={defaultDate}
+                        onDateChange={onDateChange}
+                    />
+                )}
+                <BarChart data={data} type={CATEGORY.OUTCOME} />
+            </View>
+        </Container>
+    );
+};
+
+const mapStateToProps = (state) => {
+    return {
+        transactions: state.transfersReducer.transactions,
+        categories: state.settingsReducer.categories,
+    };
+};
+
+export const OutcomeCategoriesReportScreen = connect(mapStateToProps, null)(OutcomeCategoriesReportScreenComponent);

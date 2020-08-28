@@ -7,12 +7,13 @@ import {DateFilters} from "../enums/DateFilters";
 import {DateTypePicker} from "../components/DateTypePicker";
 import {DatesSelect} from "../components/DatesSelect";
 import {dateFilters, defaultDate, useDateFilters} from "../utils/dateFilters";
-import {getIncomeCategoriesData} from "../utils/getIncomeCategoriesData";
+import {getCategoriesData} from "../utils/getCategoriesData";
 import {BarChart} from "../components/BarChart";
+import {CATEGORY} from "../../settings/utils/category.enum";
 
 export const IncomeCategoriesReportScreenComponent = ({transactions, categories}) => {
     const {dateFilter, dates, onCategoryChangeHandler, onDateChange} = useDateFilters();
-    const data = getIncomeCategoriesData(transactions, categories, dateFilter, dates);
+    const data = getCategoriesData({transactions, categories, dateFilter, dates, type: CATEGORY.INCOME});
     const showDatePicker = dateFilter === DateFilters.SelectDates;
     return (
         <Container>
@@ -29,7 +30,7 @@ export const IncomeCategoriesReportScreenComponent = ({transactions, categories}
                         onDateChange={onDateChange}
                     />
                 )}
-                <BarChart data={data} />
+                <BarChart data={data} type={CATEGORY.INCOME} />
             </View>
         </Container>
     );

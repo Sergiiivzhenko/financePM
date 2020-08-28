@@ -4,6 +4,7 @@ import {BarChart as Chart} from 'react-native-svg-charts';
 import {Text} from "react-native-svg";
 import {Text as TextNative} from "native-base";
 import {Colors} from "../../common/constants/Colors";
+import {CATEGORY} from "../../settings/utils/category.enum";
 
 const Labels = ({x, y, bandwidth, data}) => (
     data.map((item, index) => (
@@ -20,23 +21,24 @@ const Labels = ({x, y, bandwidth, data}) => (
     ))
 );
 
-export const BarChart = ({data}) => {
+export const BarChart = ({data, type}) => {
     if (!data) {
         return <TextNative style={styles.placeholder}>No data available for selected period</TextNative>;
     }
     const contentInset = {top: 10, bottom: 10};
+    const color = type === CATEGORY.INCOME ? Colors.green : Colors.red;
     return (
         <View style={{flexDirection: 'row', height: data.length * 50, paddingHorizontal: 10}}>
             <Chart
                 style={{flex: 1}}
                 data={data}
-                yAccessor={({ item }) => item.value}
-                svg={{ fill: Colors.green }}
+                yAccessor={({item}) => item.value}
+                svg={{fill: color}}
                 contentInset={contentInset}
                 gridMin={0}
                 horizontal={true}
             >
-                <Labels />
+                <Labels/>
             </Chart>
         </View>
 
