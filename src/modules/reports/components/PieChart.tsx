@@ -27,7 +27,7 @@ export const Labels = ({slices}: { slices?: any }) => {
 
 // todo: add legend
 export const PieChart = ({data}) => {
-    if (data.some(item => !item.amount)) {
+    if (!data || data.some(item => !item.amount)) {
         return <TextNative style={styles.placeholder}>No data available for selected period</TextNative>;
     }
     return (
