@@ -6,7 +6,7 @@ import {Colors} from "../../common/constants/Colors";
 
 export const LineChart = ({data, type}) => {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const axesSvg = {fontSize: 10, fill: 'grey'};
+    const axesSvg = {fontSize: 10, fill: 'black'};
     const verticalContentInset = {top: 10, bottom: 10}
     const xAxisHeight = 30;
     const color = type === CATEGORY.INCOME ? Colors.green : Colors.red;
