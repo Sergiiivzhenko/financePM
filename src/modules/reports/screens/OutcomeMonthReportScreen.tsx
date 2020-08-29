@@ -1,8 +1,27 @@
 import React from "react";
-import {Text, View} from "react-native";
+import {View} from "react-native";
+import {connect} from 'react-redux';
+import {Container} from "native-base";
 
-export const OutcomeMonthReportScreen = () => (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>OutcomeMonthReportScreen</Text>
-    </View>
-);
+import {CATEGORY} from "../../settings/utils/category.enum";
+import {LineChart} from "../components/LineChart";
+import {getMonthsData} from "../utils/getMonthsData";
+
+export const OutcomeMonthReportScreenComponent = ({transactions}) => {
+    const data = getMonthsData({transactions, type: CATEGORY.OUTCOME});
+    return (
+        <Container>
+            <View>
+                <LineChart data={data} type={CATEGORY.OUTCOME} />
+            </View>
+        </Container>
+    );
+};
+
+const mapStateToProps = (state) => {
+    return {
+        transactions: state.transfersReducer.transactions,
+    };
+};
+
+export const OutcomeMonthReportScreen = connect(mapStateToProps, null)(OutcomeMonthReportScreenComponent);
