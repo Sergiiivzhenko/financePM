@@ -1,22 +1,10 @@
-import React from 'react'
-import {Grid, LineChart as Chart, XAxis, YAxis} from 'react-native-svg-charts'
-import {View} from 'react-native'
+import React from 'react';
+import {Grid, LineChart as Chart, XAxis, YAxis} from 'react-native-svg-charts';
+import {View} from 'react-native';
 
 export const LineChart = () => {
-    const data = [
-        {label: 'Jan', value: 50},
-        {label: 'Feb', value: 123},
-        {label: 'Mar', value: 22},
-        {label: 'Apr', value: 33},
-        {label: 'May', value: 555},
-        {label: 'Jun', value: 234},
-        {label: 'Jul', value: 234},
-        {label: 'Aug', value: 50},
-        {label: 'Sep', value: 234},
-        {label: 'Oct', value: 50},
-        {label: 'Nov', value: 234},
-        {label: 'Dec', value: 50},
-    ];
+    const data = [50, 66, 344, 545, 55, 656, 56756, 6545, 34564, 44, 4, 456];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     const axesSvg = {fontSize: 10, fill: 'grey'};
     const verticalContentInset = {top: 10, bottom: 10}
@@ -27,8 +15,6 @@ export const LineChart = () => {
                 data={data}
                 style={{marginBottom: xAxisHeight}}
                 contentInset={verticalContentInset}
-                formatLabel={(item) => item}
-                yAccessor={({item}) => item.value}
                 svg={axesSvg}
             />
             <View style={{flex: 1, marginLeft: 10}}>
@@ -36,7 +22,6 @@ export const LineChart = () => {
                     style={{flex: 1}}
                     data={data}
                     contentInset={verticalContentInset}
-                    yAccessor={({item}) => item.value}
                     svg={{stroke: 'rgb(134, 65, 244)'}}
                 >
                     <Grid/>
@@ -45,8 +30,7 @@ export const LineChart = () => {
                     style={{marginHorizontal: -10, height: xAxisHeight}}
                     data={data}
                     contentInset={{left: 10, right: 10}}
-                    formatLabel={(item) => item}
-                    xAccessor={({item}) => item.label}
+                    formatLabel={item => months[item]}
                     svg={axesSvg}
                 />
             </View>
