@@ -1,14 +1,15 @@
 import React from 'react';
 import {Grid, LineChart as Chart, XAxis, YAxis} from 'react-native-svg-charts';
 import {View} from 'react-native';
+import {CATEGORY} from "../../settings/utils/category.enum";
+import {Colors} from "../../common/constants/Colors";
 
-export const LineChart = () => {
-    const data = [50, 66, 344, 545, 55, 656, 56756, 6545, 34564, 44, 4, 456];
+export const LineChart = ({data, type}) => {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
     const axesSvg = {fontSize: 10, fill: 'grey'};
     const verticalContentInset = {top: 10, bottom: 10}
     const xAxisHeight = 30;
+    const color = type === CATEGORY.INCOME ? Colors.green : Colors.red;
     return (
         <View style={{height: 400, padding: 20, flexDirection: 'row'}}>
             <YAxis
@@ -22,12 +23,12 @@ export const LineChart = () => {
                     style={{flex: 1}}
                     data={data}
                     contentInset={verticalContentInset}
-                    svg={{stroke: 'rgb(134, 65, 244)'}}
+                    svg={{stroke: color, strokeWidth: 2}}
                 >
                     <Grid/>
                 </Chart>
                 <XAxis
-                    style={{marginHorizontal: -10, height: xAxisHeight}}
+                    style={{height: xAxisHeight}}
                     data={data}
                     contentInset={{left: 10, right: 10}}
                     formatLabel={item => months[item]}
