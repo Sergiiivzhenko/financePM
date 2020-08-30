@@ -1,14 +1,13 @@
 import React from "react";
-import {Text} from "native-base";
-import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
-import {Entypo} from "@expo/vector-icons";
+import {Button, Text} from "native-base";
+import {Image, StyleSheet, View} from "react-native";
 import {useNavigation} from '@react-navigation/native';
 import {CATEGORY} from "../../settings/utils/category.enum";
 
 export const HomeAccountCard = ({item}) => {
     const navigation = useNavigation();
     const {id, name, icon, currency, balance} = item;
-    const onPlusPressHandler = () => navigation.navigate(
+    const onAddIncomeHandler = () => navigation.navigate(
         'Transfers',
         {
             screen: 'AddTransaction',
@@ -19,7 +18,7 @@ export const HomeAccountCard = ({item}) => {
             }
         }
     );
-    const onMinusPressHandler = () => navigation.navigate(
+    const onAddOutcomeHandler = () => navigation.navigate(
         'Transfers',
         {
             screen: 'AddTransaction',
@@ -32,19 +31,21 @@ export const HomeAccountCard = ({item}) => {
     );
     return (
         <View style={styles.container}>
-            <View style={[styles.row, styles.info]}>
-                <View style={styles.row}>
+            <View style={styles.info}>
+                <View style={styles.info}>
                     <Image source={icon} style={styles.icon} resizeMode='contain'/>
                     <Text>{name}</Text>
+                    <Text>{`${balance} ${currency.symbol}`}</Text>
                 </View>
                 <View style={styles.buttonsContainer}>
-                    <Text>{`${balance} ${currency.symbol}`}</Text>
-                    <TouchableOpacity style={styles.action} onPress={onPlusPressHandler}>
-                        <Entypo name='squared-plus' size={30} color={'blue'} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.action} onPress={onMinusPressHandler}>
-                        <Entypo name='squared-minus' size={30} color={'blue'} />
-                    </TouchableOpacity>
+                    <View style={styles.accountActionContainer}>
+                        <Button style={styles.accountActionButton} onPress={onAddIncomeHandler}>
+                            <Text>+ Income</Text>
+                        </Button>
+                        <Button style={styles.accountActionButton} onPress={onAddOutcomeHandler}>
+                            <Text>+ Outcome</Text>
+                        </Button>
+                    </View>
                 </View>
             </View>
         </View>
@@ -57,30 +58,26 @@ const styles = StyleSheet.create({
         margin: 10,
         justifyContent: 'space-between',
     },
-    row: {
-        flexDirection: 'row',
-    },
     info: {
         flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
+        flexDirection: 'row',
     },
     icon: {
         height: 30,
         width: 60,
     },
-    action: {
-        width: 40,
-        alignItems: 'center',
-        alignSelf: 'center'
-    },
-    button: {
-        margin: 5,
-        justifyContent: 'center',
-    },
     buttonsContainer: {
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: "space-between",
+    },
+    accountActionContainer: {
+        flexDirection: 'row',
+    },
+    accountActionButton: {
+        marginLeft: 5,
+        height: 30,
     }
 });

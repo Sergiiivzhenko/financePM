@@ -18,7 +18,7 @@ export const CategoryCard = ({item, setItem, openModalHandler, removeCategory}) 
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.close} onPress={onRemoveHandler}>
-                <Entypo name='squared-cross' size={24} color={'red'} />
+                <Entypo name='circle-with-cross' size={24} color={'red'} />
             </TouchableOpacity>
         </View>
     );

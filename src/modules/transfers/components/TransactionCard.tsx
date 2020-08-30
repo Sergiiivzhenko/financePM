@@ -29,7 +29,7 @@ export const TransactionCardComponent = ({item, removeTransaction, categories, a
                 <Text style={styles.text}>{`${sign}${amount}${currency.symbol}`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.close} onPress={onRemoveHandler}>
-                <Entypo name='squared-cross' size={24} color={'red'} />
+                <Entypo name='circle-with-cross' size={24} color={'red'} />
             </TouchableOpacity>
         </View>
     );
