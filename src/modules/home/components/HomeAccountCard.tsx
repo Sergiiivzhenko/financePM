@@ -40,10 +40,10 @@ export const HomeAccountCard = ({item}) => {
                 <View style={styles.buttonsContainer}>
                     <View style={styles.accountActionContainer}>
                         <Button style={styles.accountActionButton} onPress={onAddIncomeHandler}>
-                            <Text>+ Income</Text>
+                            <Text>+</Text>
                         </Button>
                         <Button style={styles.accountActionButton} onPress={onAddOutcomeHandler}>
-                            <Text>+ Outcome</Text>
+                            <Text>-</Text>
                         </Button>
                     </View>
                 </View>
