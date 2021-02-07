@@ -2,6 +2,7 @@ import React from "react";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
 import {Entypo} from "@expo/vector-icons";
 import {Text} from "native-base";
+import {Colors} from "../../common/constants/Colors";
 
 export const CategoryCard = ({item, setItem, openModalHandler, removeCategory}) => {
     const {id, name} = item;
@@ -18,7 +19,7 @@ export const CategoryCard = ({item, setItem, openModalHandler, removeCategory}) 
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.close} onPress={onRemoveHandler}>
-                <Entypo name='circle-with-cross' size={24} color={'red'} />
+                <Entypo name='circle-with-cross' size={24} color={Colors.redTransparent} />
             </TouchableOpacity>
         </View>
     );

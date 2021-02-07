@@ -6,6 +6,7 @@ import {Entypo} from "@expo/vector-icons";
 import {useNavigation} from '@react-navigation/native';
 import {CATEGORY} from "../../settings/utils/category.enum";
 import {DebtType} from "./TransactionForm";
+import {Colors} from "../../common/constants/Colors";
 
 export const TransactionCardComponent = ({item, removeTransaction, categories, accounts}) => {
     const {id, type, accountId, categoryId, amount, debt, description} = item;
@@ -29,7 +30,7 @@ export const TransactionCardComponent = ({item, removeTransaction, categories, a
                 <Text style={styles.text}>{`${sign}${amount}${currency.symbol}`}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.close} onPress={onRemoveHandler}>
-                <Entypo name='circle-with-cross' size={24} color={'red'} />
+                <Entypo name='circle-with-cross' size={24} color={Colors.redTransparent} />
             </TouchableOpacity>
         </View>
     );
