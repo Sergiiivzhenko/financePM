@@ -21,7 +21,7 @@
     "expo-constants": "~8.0.0",
     "expo-font": "~8.0.0",
     "js-base64": "^2.5.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "native-base": "2.13.8",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
